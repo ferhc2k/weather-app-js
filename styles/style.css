@@ -1,0 +1,159 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background-color: #1e1f24;
+    color: #FFF;
+    width: 100%;
+    font-size: 0.95rem;
+    font-family: 'Inter';
+}
+p, h1{
+    margin: 0;
+}
+main{
+    max-width: 300px;
+    height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #28292e;
+    padding: 2rem;
+    border-radius: 20px;
+}
+.form-input-text{
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background-color: #1e1f24;
+    border-radius: 30px;
+    padding: 0.85rem 1rem;
+}
+
+.form-input-text input {
+    border: none;
+    outline: none;
+    background-color: #FFF0;
+    color: inherit;
+    font-family: inherit;
+}
+
+.horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.form-input-radio{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-input-radio input {
+    accent-color: #c0dde0;
+}
+
+.button {
+    width: 100%;
+    background-color: #c0dde0;
+    color: #000;
+    font-family: inherit;
+    border-radius: 30px;
+    padding: 0.85rem;
+    border: none;
+    overflow: none;
+    cursor: pointer;
+}
+
+.container{
+    width: 100%;
+    background-color: #28292e;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+}
+.weather-icon{
+    font-size: 2rem;
+    color: #c0dde0;
+}
+.weather-main{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+}
+.temperature{
+    font-size: 3rem;
+}
+.weather-text-small{
+    text-transform: capitalize;
+    color: #8e8f94;
+}
+.weather-data{
+    background-color: #c0dde0;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    border-radius: 40px;
+    padding: 1rem 1.5rem;
+}
+.data-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.data-item p{
+    font-size: 0.75rem;
+}
+
+.msg {
+    color: #c0dde0;
+    text-align: center;
+}
+.msg-error {
+    color: #ff5666;
+    text-align: center;
+}
+
+
+.spinner {
+    border: 2px solid;
+    width: 40px;
+    height: 40px;
+    border-color: #c0dde0 rgba(0,0,0,.1) rgba(0,0,0,.1);
+    border-radius: 50%;
+    display: inline-block;
+    animation: spinner 750ms linear infinite;
+}
+  
+@keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+}
