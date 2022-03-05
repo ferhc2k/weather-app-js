@@ -1,6 +1,8 @@
 const API_KEY = "f8d0fc246484ed113a33f2c3205dacd3";
-const container = document.querySelector(".container");
-const formWeather = document.getElementById("form-weather");
+const form = document.querySelector(".form");
+const container = document.querySelector(".weather__container");
+const toggleTheme = document.querySelector(".btn__toggle-theme");
+moment.locale('es');
 const weatherIcons = {
     "01d": "ri-sun-fill",
     "02d": "ri-sun-cloudy-line",
@@ -22,31 +24,31 @@ const weatherIcons = {
     "50n": "ri-mist-fill",
 }
 
+const setUnit = (unit) => unit === "metric" ? "C" : "F";
+
 const weatherRender = (data, unit) => {
-    const setUnit = unit.shift() === "metric" ? "C" : "F";
-    moment.locale('es');
     const ui = `
-        <i class="${weatherIcons[data.weather[0].icon]} weather-icon"></i>
-        <div class="weather-main">
-            <h1 class="temperature">${Math.round(data.main.temp)} &#176 ${setUnit}</h1>
-            <p class="weather-text-small"><i class="ri-map-pin-2-line"></i> ${data.name}, ${data.sys.country}</p>
+        <i class="weather__icon ${weatherIcons[data.weather[0].icon]}"></i>
+        <div class="weather__main">
+            <h1 class="main__temperature">${Math.round(data.main.temp)}&#176 ${setUnit(unit)}</h1>
+            <p class="weather__text--small"><i class="ri-map-pin-2-line"></i> ${data.name}, ${data.sys.country}</p>
         </div>
-        <div class="weather-data">
-            <div class="data-item">
+        <div class="weather__data">
+            <div class="data__item">
                 <i class="ri-cloud-fill"></i>
-                <p>${data.clouds.all}%</p>
+                <p class="data__description">${data.clouds.all}%</p>
             </div>
-            <div class="data-item">
+            <div class="data__item">
                 <i class="ri-drop-fill"></i>
-                <p>${data.main.humidity}%</p>
+                <p class="data__description">${data.main.humidity}%</p>
             </div>
-            <div class="data-item">
+            <div class="data__item">
                 <i class="ri-windy-line"></i>
-                <p>${data.wind.speed} km/h</p>
+                <p class="data__description">${data.wind.speed} km/h</p>
             </div>
-            <div class="data-item">
+            <div class="data__item">
                 <i class="ri-temp-cold-line"></i>
-                <p>${Math.round(data.main.temp_max)} &#176</p>
+                <p class="data__description">${Math.round(data.main.temp_max)}&#176</p>
             </div>
         </div>
         <p>Ultima actualización: ${moment(moment(moment.unix(data.dt)["_i"]).format()).fromNow()}.</p>
@@ -55,27 +57,103 @@ const weatherRender = (data, unit) => {
 }
 
 const spinner = () => {
+    const content = document.createElement("div");
     const container = document.createElement("div");
-    container.classList.add("spinner");
-    return container;
+    content.classList.add("spinner__container");
+    container.classList.add("spinner__circle");
+    content.appendChild(container);
+    content.innerHTML += '<p class="weather__msg--normal">Obtiendo datos.</p>'
+    return content;
 }
 
-const fetchData = (city, unit) => {
+
+const fetchDataByCity = (city, unit) => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&lang=es&appid=${API_KEY}`)
-        .then(res => res.ok ? res.json() : Promise.reject(res)) 
+        .then(response => response.ok ? response.json() : response.json().then(json => { throw json })) 
         .then(data => container.innerHTML = weatherRender(data, unit))
-        .catch(error => container.innerHTML = `<p class="msg-error">${error.statusText} ${error.status}</p>`);
+        .catch(error => container.innerHTML = `<p class="weather__msg--error">${error.message}</p>`);
 }
 
-formWeather.addEventListener("submit", async (e) => {
+const fetchDataByCoords = (lat, lon, unit ) => {
+    fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&lang=es&appid=${API_KEY}`)
+        .then(response => response.ok ? response.json() : response.json().then(json => { throw json })) 
+        .then(data => container.innerHTML = weatherRender(data, unit))
+        .catch(error => container.innerHTML = `<p class="weather__msg--error">${error.message}</p>`);
+}
+
+
+/*const fetchData = async (city, unit) => {
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ city }&units=${ unit }&lang=es&appid=${ API_KEY }`);
+        const data = await response.json();
+        if (!response.ok) throw data;
+        container.innerHTML = weatherRender(data, unit);
+    } catch (error) {
+        container.innerHTML = `<p class="msg-error">${error.message}</p>`;
+    }
+}*/
+
+/*const fetchData = async (city, unit) => {
+    try {
+        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${ city }&units=${ unit }&lang=es&appid=${ API_KEY }`);
+        const data = await response.data;
+        container.innerHTML = weatherRender(data, unit);
+    } catch (error) {
+        const errorData = error.response.data
+        container.innerHTML = `<p class="msg-error">${errorData.message}</p>`;
+    }
+}*/
+
+/*const fetchData = (city, unit) => {
+    const xhr = new XMLHttpRequest(); 
+    xhr.addEventListener("readystatechange", () => { 
+        if(xhr.readyState !== 4) return;
+        if(xhr.status >= 200 && xhr.status < 300){ 
+            const data = JSON.parse(xhr.responseText);
+            container.innerHTML = weatherRender(data, unit);
+        }else{
+            const error = JSON.parse(xhr.responseText);
+            container.innerHTML = `<p class="msg-error">${error.message}</p>`;
+        }
+    })
+    xhr.open(
+        "GET", 
+        `https://api.openweathermap.org/data/2.5/weather?q=${ city }&units=${ unit }&lang=es&appid=${ API_KEY }`
+    );
+    xhr.send() 
+}*/
+
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
     container.innerHTML = "";
     container.appendChild(spinner());
-    await fetchData(formData.getAll("city"), formData.getAll("unit"));
-    formWeather.reset();
+    await fetchDataByCity(form.city.value, form.unit.value);
+    form.reset();
 })
 
 
-
+const onLocationSuccess = async (position) => {
+    const { latitude, longitude } = position.coords;
+    container.innerHTML = "";
+    container.appendChild(spinner());
+    await fetchDataByCoords(latitude, longitude, form.unit.value);
+}
     
+const onLocationError = (error) => {
+    container.innerHTML = `<p class="weather__msg--error">${error.message}</p>`;
+}
+
+const getLocation = () => {
+    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(onLocationSuccess, onLocationError);
+    else console.log("Geolocation is not supported by this browser.")
+}
+  
+
+toggleTheme.addEventListener("click", () => {
+    document.body.classList.toggle("dark-theme");
+    if(document.body.classList.contains("dark-theme")) {
+        toggleTheme.classList.replace("ri-moon-line", "ri-sun-line")
+    } else {
+        toggleTheme.classList.replace("ri-sun-line", "ri-moon-line")
+    }
+})

@@ -1,10 +1,35 @@
-*{
+*,::after,::before{
     box-sizing: border-box;
 }
+
+.dark-theme {
+    --primary-color: #2567ff;
+    --accent-color: #e3ecff;
+    --body-color: #1e1f24;
+    --container-color: #28292e;
+    --field-color: #1e1f24;
+    --text-color: #FFF;
+    --text-color-msg: #e3ecff;
+    --text-color-error: #ff5666;
+}
+
+:root {
+    --primary-color: #2567ff;
+    --accent-color: #e3ecff;
+    --body-color: #EDF0F4;
+    --container-color: #FFF;
+    --field-color: #F5F5F5;
+    --text-color: #464853;
+    --text-color-msg: #2567ff;
+    --text-color-error: #ff5666;
+}
+
+
+
 body{
     margin: 0;
-    background-color: #1e1f24;
-    color: #FFF;
+    background-color: var(--body-color);
+    color: var(--text-color);
     width: 100%;
     font-size: 0.95rem;
     font-family: 'Inter';
@@ -13,7 +38,7 @@ p, h1{
     margin: 0;
 }
 main{
-    max-width: 300px;
+    max-width: 325px;
     height: 100vh;
     margin: 0 auto;
     display: flex;
@@ -28,20 +53,21 @@ main{
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    background-color: #28292e;
+    background-color: var(--container-color);
     padding: 2rem;
     border-radius: 20px;
+    text-align: center;
 }
-.form-input-text{
+.field__text{
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    background-color: #1e1f24;
+    background-color: var(--field-color);
     border-radius: 30px;
     padding: 0.85rem 1rem;
 }
 
-.form-input-text input {
+.field__input-text{
     border: none;
     outline: none;
     background-color: #FFF0;
@@ -49,37 +75,73 @@ main{
     font-family: inherit;
 }
 
-.horizontal {
+.choose-unit__container {
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.form-input-radio{
+.field__radio{
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.form-input-radio input {
-    accent-color: #c0dde0;
+.field__input-radio {
+    accent-color: var(--primary-color);
+}
+
+.separator {
+    align-items: center;
+    display: flex;
+    position: relative;
+}
+
+.separator__content {
+    background: var(--container-color);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 1rem;
+}
+
+.separator__line {
+    border-bottom: 1px solid #50505014;
+    height: 1px;
+    width: 100%;
 }
 
 .button {
     width: 100%;
-    background-color: #c0dde0;
-    color: #000;
+    background-color: #FFF0;
     font-family: inherit;
     border-radius: 30px;
     padding: 0.85rem;
     border: none;
-    overflow: none;
+    outline: none;
     cursor: pointer;
 }
 
-.container{
+.button--primary {
+    background-color: var(--primary-color);
+    color: #FFF;
+}
+
+.button--secondary {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+
+
+
+
+
+
+.weather__container{
     width: 100%;
-    background-color: #28292e;
+    background-color: var(--container-color);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -89,60 +151,66 @@ main{
     border-radius: 20px;
     text-align: center;
 }
-.weather-icon{
+.weather__icon{
     font-size: 2rem;
-    color: #c0dde0;
+    color: var(--primary-color);
 }
-.weather-main{
+.weather__main{
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     align-items: center;
     justify-content: center;
 }
-.temperature{
+.main__temperature{
     font-size: 3rem;
 }
-.weather-text-small{
+.weather__text--small{
     text-transform: capitalize;
-    color: #8e8f94;
+    color: #808080;
+    margin: 0.5rem 0;
 }
-.weather-data{
-    background-color: #c0dde0;
-    color: #000;
+.weather__data{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    gap: 1rem;
-    border-radius: 40px;
-    padding: 1rem 1.5rem;
+    justify-content: space-between;
+    gap: 1.25rem;
 }
-.data-item{
+.data__item{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
 }
-.data-item p{
+.data__description{
     font-size: 0.75rem;
+    color: #808080;
 }
 
-.msg {
-    color: #c0dde0;
+.weather__msg--normal {
+    color: var(--text-color-msg);
     text-align: center;
 }
-.msg-error {
-    color: #ff5666;
+.weather__msg--error {
+    text-transform: capitalize;
+    color: var(--text-color-error);
     text-align: center;
 }
 
 
-.spinner {
+.spinner__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+}
+.spinner__circle {
     border: 2px solid;
     width: 40px;
     height: 40px;
-    border-color: #c0dde0 rgba(0,0,0,.1) rgba(0,0,0,.1);
+    border-color: var(--primary-color) rgba(0,0,0,.1) rgba(0,0,0,.1);
     border-radius: 50%;
     display: inline-block;
     animation: spinner 750ms linear infinite;
@@ -156,4 +224,18 @@ main{
     100% {
       transform: rotate(360deg);
     }
+}
+
+
+
+.btn__toggle-theme {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--primary-color);
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    color: #FFF;
+    cursor: pointer;
 }

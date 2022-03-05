@@ -11,31 +11,40 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="light-theme">
+    <i class="btn__toggle-theme ri-moon-line"></i>
     <main>
-        <form id="form-weather" class="form">
-            <div class="form-input-text">
-                <i class="ri-search-line"></i>
-                <input type="text" name="city" placeholder="Enter your location" required>
+        <form class="form" >
+            <div class="field__text">
+                <i class="field__icon ri-search-line"></i>
+                <input class="field__input-text" type="text" name="city" placeholder="Enter your location" required>
             </div>
-            <div class="horizontal">
-                <div class="form-input-radio">
-                    <p>Celsius</p>
-                    <input type="radio" name="unit" id="" value="metric" checked>
+            <div class="choose-unit__container">
+                <div class="field__radio">
+                    <p class="field__label">Celsius</p>
+                    <input class="field__input-radio" type="radio" name="unit" value="metric" checked>
                 </div>
-                <div class="form-input-radio">
-                    <p>Fahrenheit</p>
-                    <input type="radio" name="unit" id="" value="imperial">
+                <div class="field__radio">
+                    <p class="field__label">Fahrenheit</p>
+                    <input class="field__input-radio" type="radio" name="unit" value="imperial">
                 </div>
             </div>
-            <button class="button">Buscar</button>
+            <button type="submit" class="button button--primary">Buscar</button>
+            <div class="separator">
+                <div class="separator__content">o</div>
+                <div class="separator__line"></div>
+            </div>
+            <button type="button" onclick="getLocation()" class="button button--secondary">Buscar por mi ubicación</button>
         </form>
-        <div class="container">
-            <p class="msg">No haz hecho ninguna busqueda.</p>
+        <div class="weather__container">
+            <p class="weather__msg--normal">No haz hecho ninguna busqueda.</p>
         </div>
     </main>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/es.js"></script>
-<script src="js/app.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="js/app.js" defer></script>
 </html>
+
+
