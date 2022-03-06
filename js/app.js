@@ -75,7 +75,7 @@ const fetchDataByCity = (city, unit) => {
 }
 
 const fetchDataByCoords = (lat, lon, unit ) => {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&lang=es&appid=${API_KEY}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&lang=es&appid=${API_KEY}`)
         .then(response => response.ok ? response.json() : response.json().then(json => { throw json })) 
         .then(data => container.innerHTML = weatherRender(data, unit))
         .catch(error => container.innerHTML = `<p class="weather__msg--error">${error.message}</p>`);

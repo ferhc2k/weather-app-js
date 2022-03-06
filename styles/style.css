@@ -229,7 +229,7 @@ main{
 
 
 .btn__toggle-theme {
-    position: absolute;
+    position: fixed;
     bottom: 2rem;
     right: 2rem;
     background-color: var(--primary-color);
